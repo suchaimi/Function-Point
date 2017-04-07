@@ -14,6 +14,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import com.jfoenix.controls.JFXComboBox;
+import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 
 
@@ -161,6 +163,32 @@ public class FXMLDocumentController implements Initializable {
             if(!newValue){
                 tinput.validate();
             }
+
+        });
+        
+        //coba check ketikan V sip ws kenek gan !! fix gawe iki nkok pas ngitung dadi ben ngetik value e dikirim fif
+        tinput.textProperty().addListener((Observable, oldValue, newValue)->{
+            System.out.println("is typing "+newValue);
+        });
+        tinput.lengthProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                char ch = tinput.getText().charAt(oldValue.intValue());
+                if(!(ch >= '0'&&ch <='9')){
+                    tinput.setText(tinput.getText().substring(0,tinput.getText().length()-1));
+                }
+            }
+            
+        });
+        
+        // coba handle combo box v sipp wes bisa gan !!
+        tsatu.setOnAction((event) -> {
+            System.out.println(tsatu.getSelectionModel().getSelectedIndex());
+        });
+        
+        //coba handle typing v bisa tapi harus tekan enter lalu dikirim value nya
+        toutput.setOnAction((event)->{
+            System.out.println("istyping "+toutput.getText());
         });
         
         // Inputan satu
@@ -298,6 +326,5 @@ public class FXMLDocumentController implements Initializable {
         tlimabelas.getItems().add(new Label("5"));
         tlimabelas.setEditable(false);
        
-    }    
-    
+    } 
 }
